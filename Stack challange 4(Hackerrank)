@@ -1,0 +1,97 @@
+#include <stdio.h>
+#include <string.h>
+int stack1[1000];
+int stack2[1000];
+int top1 = -1;
+int top2 = -1;
+int max1, max2;
+void push1(int value) {
+    if (top1 < max1 - 1) {
+        stack1[++top1] = value;
+    } else {
+        printf("Overflow\n");
+    }
+}
+void push2(int value) {
+    if (top2 < max2 - 1) {
+        stack2[++top2] = value;
+    } else {
+        printf("Overflow\n");
+    }
+}
+void pop1() {
+    if (top1 >= 0) {
+        printf("%d\n", stack1[top1--]);
+    } else {
+        printf("Underflow\n");
+    }
+}
+void pop2() {
+    if (top2 >= 0) {
+        printf("%d\n", stack2[top2--]);
+    } else {
+        printf("Underflow\n");
+    }
+}
+void peek1() {
+    if (top1 >= 0) {
+        printf("%d\n", stack1[top1]);
+    } else {
+        printf("Underflow\n");
+    }
+}
+void peek2() {
+    if (top2 >= 0) {
+        printf("%d\n", stack2[top2]);
+    } else {
+        printf("Underflow\n");
+    }
+}
+void display1() {
+    if (top1 == -1) {
+        printf("Empty\n");
+        return;
+    }
+    for (int i = top1; i >= 0; i--) {
+        printf("%d%s", stack1[i], i == 0 ? "" : " ");
+    }
+    printf("\n");
+}
+void display2() {
+    if (top2 == -1) {
+        printf("Empty\n");
+        return;
+    }
+    for (int i = top2; i >= 0; i--) {
+        printf("%d%s", stack2[i], i == 0 ? "" : " ");
+    }
+    printf("\n");
+}
+int main() {
+    int q, s, x;
+    char op[20];
+    scanf("%d %d", &max1, &max2);
+    scanf("%d", &q);
+    for (int i = 0; i < q; i++) {
+        scanf("%s %d", op, &s);
+        if (strcmp(op, "PUSH") == 0) {
+            scanf("%d", &x);
+            if (s == 1) push1(x);
+            else push2(x);
+        } 
+        else if (strcmp(op, "POP") == 0) {
+            if (s == 1) pop1();
+            else pop2();
+        } 
+        else if (strcmp(op, "PEEK") == 0) {
+            if (s == 1) peek1();
+            else peek2();
+        } 
+        else if (strcmp(op, "DISPLAY") == 0) {
+            if (s == 1) display1();
+            else display2();
+        }
+    }
+
+    return 0;
+}
