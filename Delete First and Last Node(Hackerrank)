@@ -1,0 +1,84 @@
+#include <stdio.h>
+#include <stdlib.h>
+struct node {
+    struct node* prev;
+    int data;
+    struct node* next;
+};
+struct node* head = NULL;
+struct node* createnode(int data) {
+    struct node* temp = (struct node*)malloc(sizeof(struct node));
+    temp->data = data;
+    temp->next = NULL;
+    temp->prev = NULL;
+    return temp;
+}
+void insertatend(int data) {
+    struct node* newnode = createnode(data);
+    if (head == NULL) {
+        head = newnode;
+    }
+    else {
+        struct node* temp = head;
+        while (temp->next != NULL) {
+            temp = temp->next;
+        }
+        temp->next = newnode;
+        newnode->prev = temp;
+    }
+}
+void deletefrombeg() {
+    if (head == NULL) {
+        return;
+    }
+    struct node* temp = head;
+    head = head->next;
+    if (head != NULL) {
+        head->prev = NULL;
+    }
+    free(temp);
+}
+void deletefromend() {
+    if (head == NULL) {
+        return;
+    }
+    if (head->next == NULL) {
+        free(head);
+        head = NULL;
+        return;
+    }
+    struct node* temp = head;
+    while (temp->next != NULL) {
+        temp = temp->next;
+    }
+    temp->prev->next = NULL;
+    free(temp);
+}
+void displaylist() {
+    if (head == NULL) {
+        printf("Empty");
+    }
+    else {
+        struct node* temp = head;
+        while (temp != NULL) {
+            printf("%d ", temp->data);
+            temp = temp->next;
+        }
+    }
+}
+int main() {
+    int n, value;
+    if (scanf("%d", &n) != 1) {
+        return 0;
+    }
+    for (int i = 0; i < n; i++) {
+        if (scanf("%d", &value) == 1) {
+            insertatend(value);
+        }
+    }
+    deletefrombeg();
+    deletefromend();
+    displaylist();
+
+    return 0;
+}
