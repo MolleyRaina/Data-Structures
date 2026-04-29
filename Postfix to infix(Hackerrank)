@@ -1,0 +1,33 @@
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
+#include <stdlib.h>
+#include <ctype.h>
+
+char* PostfixToInfix(char* Exp){
+    int len = strlen(Exp), top = -1;
+    char stack[100][100];
+    for(int i=0; i<len; i++){
+        char ch = Exp[i];
+        if(isalnum(ch)){
+            char str[]={ch,'\0'};
+            strcpy(stack[++top], str);
+        }
+        else if(ch=='+' || ch=='-' || ch=='*' || ch=='/' || ch=='^'){
+            char *s1 = stack[top--];
+            char *s2 = stack[top--];
+            char s3[100];
+            sprintf(s3, "(%s%c%s)", s2, ch, s1);
+            strcpy(stack[++top], s3);
+        }
+    }
+    char *infix = (char*)malloc(strlen(stack[top])+1);
+    strcpy(infix, stack[top--]);
+    return infix;
+}
+int main() { 
+    char exp[100]; 
+    fgets(exp, sizeof(exp), stdin); 
+    printf("%s\n", PostfixToInfix(exp));  
+    return 0;
+}
