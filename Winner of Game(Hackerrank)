@@ -1,0 +1,66 @@
+#include <stdio.h>
+#include <stdlib.h>
+struct Node {
+    int data;
+    struct Node* next;
+};
+struct Node* head = NULL;
+struct Node* createNode(int data) {
+    struct Node* temp = (struct Node*)malloc(sizeof(struct Node));
+    temp->data = data;
+    temp->next = NULL;
+    return temp;
+}
+void insertAtEnd(int data) {
+    struct Node* newNode = createNode(data);
+    if (head == NULL) {
+        head = newNode;
+    }
+    else {
+        struct Node* temp = head;
+
+        while (temp->next != NULL) {
+        
+            temp = temp->next;
+        }
+        temp->next = newNode;
+    }
+}
+void determineWinner() {
+    int oddPoints = 0;
+    int evenPoints = 0;
+    struct Node* temp = head;
+    while (temp != NULL && temp->next != NULL) {
+        int evenVal = temp->data;
+        int oddVal = temp->next->data;
+        if (oddVal > evenVal) {
+            oddPoints++;
+        }
+        else if (evenVal > oddVal) {
+            evenPoints++;
+        }
+        temp = temp->next->next;
+    }
+    if (oddPoints > evenPoints) {
+        printf("Odd\n");
+    }
+    else if (evenPoints > oddPoints) {
+        printf("Even\n");
+    }
+    else {
+        printf("Tie\n");
+    }
+}
+int main() {
+    int n, val;
+    if (scanf("%d", &n) != 1) {
+        return 0;
+    }
+    for (int i = 0; i < n; i++) {
+        if (scanf("%d", &val) == 1) {
+            insertAtEnd(val);
+        }
+    }
+    determineWinner();
+    return 0;
+}
